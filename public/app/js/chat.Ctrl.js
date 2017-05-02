@@ -10,6 +10,8 @@ angular.module('ChatCtrls', ['Services'])
   var nickname;
   $scope.privateRoom = window.location.href;
 
+  socket.emit("get-users", $stateParams.roomId);
+
   DeckAPI.getDecks().then(function success(response){
     $scope.decks = response;
   }, function error(err){
@@ -35,8 +37,7 @@ angular.module('ChatCtrls', ['Services'])
 
   $scope.createRoom = function() {
     var roomId = $scope.randomString();
-    socket.emit('switch-socket', roomId)
-    // $location.path("/" + roomId);
+    // socket.emit('switch-socket', roomId)
     window.location.href = "/" + roomId
   }
 

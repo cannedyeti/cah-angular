@@ -62,24 +62,20 @@ app.use(function (err, req, res, next) {
 io.sockets.on('connection', function(socket){
   var roomKey = socket.handshake.headers.referer
   roomKey = roomKey.substring(roomKey.length-15)
+  socket.join(roomKey);
 
   socket.on('get-users', function(data) {
     var match = users.filter(function(value){
       return value.room === data;
     })
+    console.log(match)
     io.sockets.in(data).emit('all-users', match);
   });
-
-  socket.on('switch-socket', function(data){
-    console.log(data)
-    socket.join(data)
-    console.log(socket.id + socket.rooms)
-  })
 
   //new user
   socket.on('join', function(data){
     //User name
-    roomKey = roomKey.substring(roomKey.length-15)
+    roomKey = data.room;
     socket.nickname = data.nickname;
     users[socket.nickname] = socket;
     var userObj = {
@@ -87,7 +83,6 @@ io.sockets.on('connection', function(socket){
         socketid: socket.id,
         room: roomKey
     };
-    socket.join(roomKey)
     users.push(userObj);
     var match = users.filter(function(value){
       return value.room === roomKey;
@@ -102,12 +97,10 @@ io.sockets.on('connection', function(socket){
   });
 
   socket.on('send-answers', function(data){
-    // io.emit('answers-received', data);
     io.sockets.in(roomKey).emit('answers-received', data);
   })
 
   socket.on('send-black-card', function(data){
-    // io.emit('black-card-received', data);
     io.sockets.in(roomKey).emit('black-card-received', data);
   });
 
