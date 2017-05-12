@@ -101,7 +101,7 @@ angular.module('ChatCtrls', ['Services'])
       }
     });
 
-    if(deckIds.length >= 2){
+    if(deckIds.length >= 1){
       sharedProperties.setDeckIds(deckIds);
       socket.emit('send-bitches', {
         sendDothBitchesElsewhere: true
@@ -159,6 +159,7 @@ angular.module('ChatCtrls', ['Services'])
               $scope.nicknames.push(d.nickname);
             });
         });
+    
 
         BlackCardAPI.getCardsFromManyDecks($scope.deckIds).then(function success(response){
           $scope.blackCards = response;
@@ -225,9 +226,6 @@ angular.module('ChatCtrls', ['Services'])
             socket.emit('send-player-hands', obj);
           }
 
-          // HELLO
-          console.log("czar: ", $scope.cardCzar)
-          console.log("nicknames:", $scope.nicknames)
 
           var ind = pickCardIndex($scope.blackCards.length)
           var card = $scope.blackCards.splice(ind, 1)[0];
@@ -309,7 +307,7 @@ angular.module('ChatCtrls', ['Services'])
           }
         }
 
-         socket.on('card-received', function(data) {
+        socket.on('card-received', function(data) {
           $scope.submittedAnswers.push(data);
         });
 

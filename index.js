@@ -64,13 +64,13 @@ io.sockets.on('connection', function(socket){
   roomKey = roomKey.substring(roomKey.length-15)
   socket.join(roomKey);
 
-  socket.on('get-users', function(data) {
+  socket.on('get-users', function() {
     var match = users.filter(function(value){
-      return value.room === data;
+      return value.room === roomKey;
     })
-    console.log(match)
-    io.sockets.in(data).emit('all-users', match);
+    io.sockets.in(roomKey).emit('all-users', match);
   });
+
 
   //new user
   socket.on('join', function(data){
@@ -91,6 +91,7 @@ io.sockets.on('connection', function(socket){
       io.sockets.in(roomKey).emit('all-users', match);
     }
   });
+
 
   socket.on('send-message', function(data) {
     io.sockets.in(roomKey).emit('message-received', data);
