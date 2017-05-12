@@ -136,7 +136,7 @@ angular.module('ChatCtrls', ['Services'])
         $scope.myCards = [];
         $scope.cardCzar = 0;
         $scope.gandalf = false;
-        $scope.cardCzarIndex = null;
+        $scope.cardCzarIndex = 0;
         $scope.round = -1;
         $scope.deckIds = sharedProperties.getDeckIds();
         // ROOMS ------ ADDED ROOM -> WORKING
