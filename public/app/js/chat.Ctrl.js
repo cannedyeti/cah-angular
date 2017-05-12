@@ -136,7 +136,7 @@ angular.module('ChatCtrls', ['Services'])
         $scope.myCards = [];
         $scope.cardCzar = 0;
         $scope.gandalf = false;
-        $scope.cardCzarIndex = 0;
+        $scope.cardCzarIndex = null;
         $scope.round = -1;
         $scope.deckIds = sharedProperties.getDeckIds();
         // ROOMS ------ ADDED ROOM -> WORKING
@@ -225,6 +225,9 @@ angular.module('ChatCtrls', ['Services'])
             socket.emit('send-player-hands', obj);
           }
 
+          // HELLO
+          console.log("czar: ", $scope.cardCzar)
+          console.log("nicknames:", $scope.nicknames)
 
           var ind = pickCardIndex($scope.blackCards.length)
           var card = $scope.blackCards.splice(ind, 1)[0];
